@@ -6,7 +6,7 @@ import { SmoothHorizontalScrolling } from "../../utils";
 import { useViewPort } from "../hooks/useViewport";
 
 const MoviesRow = (props) => {
-  const { movies, title, isNetflix } = props;
+  const { movies, title, isNetflix, idSection } = props;
   const sliderRef = useRef();
   const movieRef = useRef();
   const [dragDown, setDragDown] = useState(0);
@@ -58,7 +58,7 @@ const MoviesRow = (props) => {
   };
 
   return (
-    <MoviesRowContainer draggable="false">
+    <MoviesRowContainer draggable="false" id={idSection}>
       <h1 className="heading">{title}</h1>
       <MoviesSlider
         ref={sliderRef}
@@ -86,7 +86,8 @@ const MoviesRow = (props) => {
       >
         {movies &&
           movies.length > 0 &&
-          movies.slice().map((movie, index) => {
+          // eslint-disable-next-line array-callback-return
+          movies.map((movie, index) => {
             if (movie.poster_path && movie.backdrop_path !== null) {
               let imageUrl = isNetflix
                 ? `https://image.tmdb.org/t/p/original${movie.poster_path}`

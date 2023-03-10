@@ -13,14 +13,22 @@ import MenuItem from "./MenuItem";
 const Menu = (props) => {
   return (
     <MenuPane>
-      <MenuItem name="Home" Icon={FaHome} />
-      <MenuItem name="Trending" Icon={FaHotjar} />
-      <MenuItem name="Top rated" Icon={FaStar} />
-      <MenuItem name="Action Movies" Icon={GiNinjaHeroicStance} />
-      <MenuItem name="Comedy Movies" Icon={MdTheaterComedy} />
-      <MenuItem name="Horror Movies" Icon={GiRomanToga} />
-      <MenuItem name="Romance Movies" Icon={GiGhost} />
-      <MenuItem name="Documentaries" Icon={GiBandageRoll} />
+      <MenuItem name="Home" Icon={FaHome} to="netflix" />
+      <MenuItem name="Trending" Icon={FaHotjar} to="trending" />
+      <MenuItem name="Top rated" Icon={FaStar} to="topRated" />
+      <MenuItem
+        name="Action Movies"
+        Icon={GiNinjaHeroicStance}
+        to="actionMovies"
+      />
+      <MenuItem name="Comedy Movies" Icon={MdTheaterComedy} to="comedyMovies" />
+      <MenuItem name="Horror Movies" Icon={GiGhost} to="horrorMovies" />
+      <MenuItem name="Romance Movies" Icon={GiRomanToga} to="romanceMovies" />
+      <MenuItem
+        name="Documentaries"
+        Icon={GiBandageRoll}
+        to="documentariesMovies"
+      />
     </MenuPane>
   );
 };
@@ -35,6 +43,8 @@ const MenuPane = styled.div`
   padding: 4px 0;
   background: rgba(50, 50, 50, 0.3);
   z-index: 100;
+  user-select: none;
+
   display: flex;
   flex-direction: column;
   transform-origin: left center;
@@ -62,7 +72,7 @@ const MenuPane = styled.div`
     span {
       font-size: 16px;
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 0.7);
 
       &:hover {
         color: #fff;
