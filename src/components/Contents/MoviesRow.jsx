@@ -6,7 +6,7 @@ import { SmoothHorizontalScrolling } from "../../utils";
 import { useViewPort } from "../hooks/useViewport";
 
 const MoviesRow = (props) => {
-  const { movies, title } = props;
+  const { movies, title, isNetflix } = props;
   const sliderRef = useRef();
   const movieRef = useRef();
   const [dragDown, setDragDown] = useState(0);
@@ -84,22 +84,37 @@ const MoviesRow = (props) => {
             : {}
         }
       >
-        {movies.map((movie, index) => (
-          <div
-            key={index}
-            className="movieItem"
-            ref={movieRef}
-            draggable="false"
-          >
-            <img src={movie} alt="" draggable="false" />
-            <div className="movieName">{title}</div>
-          </div>
-        ))}
+        {movies &&
+          movies.length > 0 &&
+          movies.slice().map((movie, index) => {
+            if (movie.poster_path && movie.backdrop_path !== null) {
+              let imageUrl = isNetflix
+                ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+                : `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
+              return (
+                <div
+                  key={index}
+                  className="movieItem"
+                  ref={movieRef}
+                  draggable="false"
+                >
+                  <img src={imageUrl} alt="" draggable="false" />
+                  <div className="movieName">{movie.title || movie.name}</div>
+                </div>
+              );
+            }
+          })}
       </MoviesSlider>
-      <div className="btnLeft" onClick={handleScrollLeft}>
+      <div
+        className={`btnLeft ${isNetflix && `isNetflix`}`}
+        onClick={handleScrollLeft}
+      >
         <FiChevronLeft />
       </div>
-      <div className="btnRight" onClick={handleScrollRight}>
+      <div
+        className={`btnRight ${isNetflix && `isNetflix`}`}
+        onClick={handleScrollRight}
+      >
         <FiChevronRight />
       </div>
     </MoviesRowContainer>
@@ -138,8 +153,8 @@ const MoviesRowContainer = styled.div`
     transform-origin: center;
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.5);
-    height: 100px;
-    width: 50px;
+    height: 50px;
+    width: 40px;
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -159,6 +174,11 @@ const MoviesRowContainer = styled.div`
       font-size: 50px;
       transition: all 0.3s linear;
     }
+
+    &.isNetflix {
+      height: 100px;
+      width: max-content;
+    }
   }
 `;
 const MoviesSlider = styled.div`
@@ -172,6 +192,7 @@ const MoviesSlider = styled.div`
   padding-top: 28px;
   padding-bottom: 28px;
   scroll-behavior: smooth;
+  cursor: pointer;
 
   &:hover .movieItem {
     opacity: 0.5;
