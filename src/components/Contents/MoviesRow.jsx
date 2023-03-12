@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import { SmoothHorizontalScrolling } from "../../utils";
 import { useViewPort } from "../hooks/useViewport";
+import { setMovieDetail } from "../store/actions";
 
 const MoviesRow = (props) => {
   const { movies, title, isNetflix, idSection } = props;
@@ -13,6 +15,12 @@ const MoviesRow = (props) => {
   const [dragMove, setDragMove] = useState(0);
   const [isDrag, setIsDrag] = useState(false);
   const [windowWidth] = useViewPort();
+
+  const dispatch = useDispatch();
+
+  const handleMovie = (movie) => {
+    dispatch(setMovieDetail(movie));
+  };
 
   const handleScrollRight = () => {
     const maxScrollLeft =
@@ -98,6 +106,7 @@ const MoviesRow = (props) => {
                   className="movieItem"
                   ref={movieRef}
                   draggable="false"
+                  onClick={() => handleMovie(movie)}
                 >
                   <img src={imageUrl} alt="" draggable="false" />
                   <div className="movieName">{movie.title || movie.name}</div>
