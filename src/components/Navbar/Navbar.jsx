@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import NetflixLogo from "../../assets/images/logo.png";
@@ -6,6 +8,24 @@ import useScrollY from "../hooks/useScrollY";
 
 const Navbar = (props) => {
   const [scrollY] = useScrollY();
+  const [keywords, setKeywords] = useState("");
+  const navigate = useNavigate();
+
+  const handleChangeInput = (e) => {
+    let keywords = e.target.value;
+    setKeywords(keywords);
+    // if (keywords.length > 0) {
+    //   navigate(`/search?keywords=${keywords.trim()}`);
+    // } else navigate("/");
+    keywords.length > 0
+      ? navigate(`/search?keywords=${keywords.trim()}`)
+      : navigate("/");
+  };
+
+  const handleGoHome = () => {
+    navigate("/");
+    setKeywords("");
+  };
 
   return (
     <Navigation
@@ -16,12 +36,17 @@ const Navbar = (props) => {
       }
     >
       <div className="navContainer">
-        <div className="logo">
+        <div className="logo" onClick={handleGoHome}>
           <img src={NetflixLogo} alt="" />
         </div>
         <div className="navSearch">
           <BiSearch className="iconSearch" />
-          <input type="text" placeholder="Input title, genres, people" />
+          <input
+            type="text"
+            placeholder="Input title, genres, people"
+            onChange={handleChangeInput}
+            value={keywords}
+          />
         </div>
       </div>
     </Navigation>
@@ -37,7 +62,7 @@ const Navigation = styled.div`
   top: 0;
   transition-timing-function: ease-in;
   transition: all 1s;
-  z-index: 10;
+  z-index: 999;
 
   @media only screen and (max-width: 600px) {
     height: 100px;

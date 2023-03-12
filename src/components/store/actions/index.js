@@ -17,6 +17,7 @@ export const getNetflixOriginals = () => async (dispatch) => {
     console.log("get netflix api error:", error);
   }
 };
+
 export const getTrendingMovies = () => async (dispatch) => {
   try {
     const result = await axios.get(
@@ -30,6 +31,7 @@ export const getTrendingMovies = () => async (dispatch) => {
     console.log("get trending api error:", error);
   }
 };
+
 export const getTopRatedMovies = () => async (dispatch) => {
   try {
     const result = await axios.get(
@@ -43,6 +45,7 @@ export const getTopRatedMovies = () => async (dispatch) => {
     console.log("get rated api error:", error);
   }
 };
+
 export const getActionMovies = () => async (dispatch) => {
   try {
     const result = await axios.get(
@@ -56,6 +59,7 @@ export const getActionMovies = () => async (dispatch) => {
     console.log("get action api error:", error);
   }
 };
+
 export const getComedyMovies = () => async (dispatch) => {
   try {
     const result = await axios.get(
@@ -69,6 +73,7 @@ export const getComedyMovies = () => async (dispatch) => {
     console.log("get comedy api error:", error);
   }
 };
+
 export const getHorrorMovies = () => async (dispatch) => {
   try {
     const result = await axios.get(
@@ -82,6 +87,7 @@ export const getHorrorMovies = () => async (dispatch) => {
     console.log("get horror api error:", error);
   }
 };
+
 export const getRomanceMovies = () => async (dispatch) => {
   try {
     const result = await axios.get(
@@ -95,6 +101,7 @@ export const getRomanceMovies = () => async (dispatch) => {
     console.log("get roman api error:", error);
   }
 };
+
 export const getDocumentaries = () => async (dispatch) => {
   try {
     const result = await axios.get(
@@ -111,4 +118,15 @@ export const getDocumentaries = () => async (dispatch) => {
 
 export const setMovieDetail = (movie) => (dispatch) => {
   dispatch({ type: Types.SET_MOVIE_DETAIL, payload: movie });
+};
+
+export const getSearchMovies = (keywords) => async (dispatch) => {
+  try {
+    const result = await axios.get(`
+    ${BASE_URL}/search/multi?api_key=${API_KEY}&language=en-US&include_adult=false&query=${keywords}`);
+
+    dispatch({ type: Types.GET_SEARCH_MOVIES, payload: result.data.results });
+  } catch (error) {
+    console.log("get search movies api error:", error);
+  }
 };
